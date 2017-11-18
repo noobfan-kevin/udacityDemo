@@ -1,6 +1,6 @@
 !function (window, $) {
     const POSITION_ARRAY = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-    const WEATHER_ICON_ARRAY = ['fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', 'fa-cube', 'fa-leaf', 'fa-bicycle', 'fa-bomb'];
+    const ICON_ARRAY = ['fa-diamond', 'fa-paper-plane-o', 'fa-anchor', 'fa-bolt', 'fa-cube', 'fa-leaf', 'fa-bicycle', 'fa-bomb'];
     const COUNT_IN_ROW = 4;
 
     var underMatching = false;
@@ -17,7 +17,7 @@
         return POSITION_ARRAY.reduce((array, item) => {
             var index = getRandomIntInclusive(0, positionArray.length - 1);
             var position = positionArray.splice(index, 1);
-            array[position] = WEATHER_ICON_ARRAY[item % 8];
+            array[position] = ICON_ARRAY[item % 8];
             return array;
         }, Array(16));
     }
@@ -225,7 +225,7 @@
         if ($($('.star')[1]).hasClass('fa-star-o')) {
             return;
         }
-        $('.stars').attr('value', 2);
+        $('.stars').attr('value', 1);
         $($('.star')[1]).removeClass('fa-star').addClass('fa-star-o');
     }
 
@@ -236,7 +236,7 @@
         if ($($('.star')[2]).hasClass('fa-star-o')) {
             return;
         }
-        $('.stars').attr('value', 1);
+        $('.stars').attr('value', 2);
         $($('.star')[2]).removeClass('fa-star').addClass('fa-star-o');
     }
 
