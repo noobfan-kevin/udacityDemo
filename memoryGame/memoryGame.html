@@ -16,21 +16,38 @@
         </header>
 
         <section class="score-panel">
-        	<ul class="stars">
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
+        	<ul class="stars" value="3">
+        		<li><i class="star fa fa-star"></i></li>
+        		<li><i class="star fa fa-star"></i></li>
+        		<li><i class="star fa fa-star"></i></li>
         	</ul>
 
-        	<span class="moves">3</span> Moves
+        	<span class="moves" value="-1">0</span> Moves
 
             <div class="restart">
         		<i class="fa fa-repeat"></i>
-        	</div>
+            </div>
+
+            <div class="timer">
+                <span class="seconds" value="10">10</span> S
+            </div>
         </section>
 
         <ul class="deck">
+            <div class="start-control">
+                <button class="start-btn">START</button>
+                <br>
+                <span>Once you start game, you only have 10s to remember all cards.</span>
+            </div>
         </ul>
+    </div>
+    <div class="congratulation">
+        <div class="c-inner">
+            <h3>Congratulations! You Won!</h3>
+            <span class="win-message"></span>
+            <br>
+            <button class="again">Again</button>
+        </div>
     </div>
     <script src="../lib/jquery.min.js"></script>
     <script src="./memoryGame.js"></script>
