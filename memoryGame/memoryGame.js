@@ -7,8 +7,11 @@
     var isCounting = false;
     var countingID = null;
     var successMatch = 0;
+
     /**
      * 
+     * @param {*array fill with 0-15} positionArray
+     * define cards position and with which icon
      */
     function getLinearArray(positionArray) {
         return POSITION_ARRAY.reduce((array, item) => {
@@ -29,6 +32,9 @@
     //     return twoDimensionalArray;
     // }
 
+    /**
+     * card list factory
+     */
     function getHtml() {
         var linearArray = getLinearArray(Object.assign([], POSITION_ARRAY));
         return linearArray.reduce((html, className) => {
@@ -42,10 +48,18 @@
         $('.deck').html(html);
     }
 
+    /**
+     * init all
+     */
     function init() {
         mountStartGameEvent();
-
     }
+
+    /**
+     * mount click event to start btn
+     * give 10s time to remember cards position
+     * mount click event to cards and restart btn
+     */
     function mountStartGameEvent() {
         $('.start-btn').off('click').on('click', () => {
             mountHtml();
@@ -64,6 +78,11 @@
         });
     }
 
+    /**
+     * start counting time
+     * over 40 seconds remove 1 star
+     * over 60 seconds remove 2 stars
+     */
     function startCountTime() {
         var seconds = 0;
         countingID = setInterval(() => {
@@ -79,6 +98,10 @@
         }, 1000);
     }
 
+    /**
+     * mount click event to cards
+     * some check in case user click more than two cards in a short time
+     */
     function mountCardClickEvent() {
         $('.card').off('click').on('click', (e) => {
             if (!isCounting) {
@@ -111,6 +134,9 @@
         });
     }
 
+    /**
+     * mount click event to restart btn
+     */
     function mountRestartEvent() {
         $('.restart').off('click').on('click', () => {
             if (confirm('Are you really want to restart game?')) {
@@ -119,6 +145,9 @@
         });
     }
 
+    /**
+     * restart game, init page info
+     */
     function restartGame() {
         clearInterval(countingID);
         $('.seconds').attr('value', 10).text(10);
@@ -136,6 +165,13 @@
         mountStartGameEvent();
         isCounting = false;
     }
+
+    /**
+     * 
+     * @param {*first choose card value} first
+     * @param {*second choose card value} second
+     * check twice choose value equal or not
+     */
     function checkMatch(first, second) {
         if (first === undefined || second === undefined) {
             return;
@@ -151,12 +187,20 @@
         }, 600);
     }
 
+    /**
+     * remove temp classes like open and show
+     */
     function removeTempClass() {
         underMatching = false;
         $('.show').removeClass('open').removeClass('show');
         var value = parseInt($('.moves').attr('value'));
         setSteps(value + 1);
     }
+
+    /**
+     * update moves info
+     * @param {*new steps used} steps 
+     */
     function setSteps(steps) {
         $('.moves').attr('value', steps).text(steps);
         var currentStar = $('.stars').attr('value');
@@ -174,6 +218,9 @@
         }
     }
 
+    /**
+     * remove the second star
+     */
     function removeSecondStar() {
         if ($($('.star')[1]).hasClass('fa-star-o')) {
             return;
@@ -182,6 +229,9 @@
         $($('.star')[1]).removeClass('fa-star').addClass('fa-star-o');
     }
 
+    /**
+     * remove the third star
+     */
     function removeThirdStar() {
         if ($($('.star')[2]).hasClass('fa-star-o')) {
             return;
@@ -190,6 +240,10 @@
         $($('.star')[2]).removeClass('fa-star').addClass('fa-star-o');
     }
 
+    /**
+     * if two choose cards are match
+     * do something
+     */
     function matchAnimation() {
         $('.show').addClass('match');
         removeTempClass();
@@ -199,6 +253,10 @@
         }
     }
 
+    /**
+     * if two choose cards are not match
+     * do something
+     */
     function errorAnimation() {
         $('.show').addClass('error');
         var timeoutID = null;
@@ -208,12 +266,21 @@
             removeTempClass();
         }, 600);
     }
+
+    /**
+     * get a number within min and max
+     * @param {*min number} min 
+     * @param {*max number} max 
+     */
     function getRandomIntInclusive(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
+    /**
+     * win
+     */
     function showCongratulationPage() { 
         clearInterval(countingID);
         var start = $('.stars').attr('value');
@@ -224,6 +291,9 @@
         mountAgainEvent();
     }
 
+    /**
+     * mount click event to again btn
+     */
     function mountAgainEvent() {
         $('.again').off('click').on('click',()=> {
             $('.congratulation').hide();
