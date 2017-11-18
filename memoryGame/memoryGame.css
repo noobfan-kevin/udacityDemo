@@ -78,6 +78,12 @@ h1 {
     cursor: default;
     background: #02ccba;
     font-size: 33px;
+    animation: dilate 0.8s;
+}
+
+.deck .card.error{
+    background: #ce342e;
+    animation: shake 0.8s;
 }
 
 /*
@@ -105,4 +111,32 @@ h1 {
 .score-panel .restart {
     float: right;
     cursor: pointer;
+}
+
+/*animations*/
+@keyframes shake {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(20deg);
+    }
+    75% {
+        transform: rotate(-20deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes dilate {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
