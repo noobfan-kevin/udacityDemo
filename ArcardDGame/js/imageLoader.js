@@ -5,6 +5,7 @@
 
         load(urls) {
             if (urls instanceof Array) {
+                urls = [...new Set(urls)];
                 return Promise.all(
                     urls.map((url) => {
                         return this.loadUrl(url);

@@ -1,4 +1,5 @@
 !function () {
+    const WIDTH_NAX = 500;
     const SINGLE_HEIGHT = 83;
     const SINGLE_WIDTH = 101;
     const ENEMY_COUNT = 4;
