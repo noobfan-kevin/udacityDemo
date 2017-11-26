@@ -1,13 +1,32 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
-    <title>Effective JavaScript: Frogger</title>
+    <title>Game</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="../lib/jquery.min.js"></script>
 </head>
+
 <body>
-    <script src="js/resources.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/engine.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/imageLoader.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/enemy.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/service.js"></script>
+    <div class="congratulation">
+        <div class="c-inner">
+            <h3>Congratulations! You Won!</h3>
+            <br>
+            <button class="again">Again</button>
+        </div>
+    </div>
 </body>
+<script>
+    $(document).ready(() => { 
+       Service.init();
+    });
+</script>
+
 </html>

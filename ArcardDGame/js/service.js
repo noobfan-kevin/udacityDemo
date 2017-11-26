@@ -1,0 +1,129 @@
+!function () {
+
+    const WIDTH_NAX = 500;
+    const SINGLE_HEIGHT = 83;
+    const SINGLE_WIDTH = 101;
+    const MAX_ENEMY = 6;
+
+    var UserWinTheGame = false;
+
+    var lastTime = 0,
+        enemyList = [];
+
+    function init() {
+        window.store$ = new ImageStore();
+        window.imageLoader$ = new ImageLoader();
+        window.engine$ = new Engine();
+        window.player$ = new Player(SINGLE_WIDTH * 2, SINGLE_HEIGHT * 5);
+        mountKeyBoardEvent();
+        appendEnemy(4);
+        renderControl();
+    }
+
+    function mountKeyBoardEvent() {
+        document.addEventListener('keyup', function (e) {
+            var allowedKeys = {
+                37: { key: 'x', value: -SINGLE_WIDTH, row: 0 },
+                38: { key: 'y', value: -SINGLE_HEIGHT, row: -1 },
+                39: { key: 'x', value: SINGLE_WIDTH, row: 0 },
+                40: { key: 'y', value: SINGLE_HEIGHT, row: 1 }
+            };
+            player$.handleInput(allowedKeys[e.keyCode]);
+        });
+    }
+
+    function appendEnemy(num) {
+        while (num-- > 0) {
+            enemyList.push(new Enemy(0, getRowPosition(num), getRandomSpeed(), num));
+        }
+    }
+
+    function resetEnemy(Enemy) {
+        var row = getRandomIntInclusive(1, 3);
+        Enemy.reset(0, getRowPosition(row), getRandomSpeed(), row);
+    }
+
+    function update(dt) {
+        enemyList.forEach((Enemy)=> {
+            checkCollision(Enemy);
+            Enemy.update(dt);
+            if (Enemy.x > WIDTH_NAX) {
+                resetEnemy(Enemy);
+            }
+        });
+    }
+
+    function checkCollision(Enemy) {
+        if(player$.row === -1) {
+            playerWin();
+        }
+        if (Enemy.row === player$.row) {
+            if (Enemy.x < player$.x && (Enemy.x + SINGLE_WIDTH) > player$.x) {
+                player$.reset();
+            }
+            if (Enemy.x > player$.x && Enemy.x < (player$.x + SINGLE_WIDTH)) {
+                player$.reset();
+            }
+        }
+    }
+    function playerWin() {
+        $('.congratulation').show();
+        UserWinTheGame = true;
+        $('.again').off('click').on('click',function() {
+            UserWinTheGame = false;
+            $('.congratulation').hide();
+            player$.reset();
+        });
+    }
+
+    function render() {
+        engine$.render(() => {
+            enemyList.forEach((Enemy) => {
+                Enemy.render();
+            });
+            player$.render();
+        });
+
+    }
+
+    function renderControl() {
+        window.requestAnimationFrame(renderControl);
+        if(UserWinTheGame) {
+            return;
+        }
+        var now = Date.now();
+        if (lastTime === 0) {
+            lastTime = now;
+        }
+        var dt = (now - lastTime) / 1000.0;
+
+        render();
+        update(dt);
+        lastTime = now; 
+    }
+
+
+
+    function getRowPosition(row) {
+        return 60 + row * SINGLE_HEIGHT;
+    }
+
+    function getRandomSpeed() {
+        return getRandomIntInclusive(100, 300);
+    }
+    /**
+     * get a number within min and max
+     * @param {*min number} min 
+     * @param {*max number} max 
+     */
+    function getRandomIntInclusive(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+
+    window.Service = {
+        init
+    }
+}();
