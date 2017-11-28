@@ -84,7 +84,7 @@ $(function () {
 
         beforeEach((done) => {
             loadFeed(0, () => {
-                entry$ = $('.entry');
+                entry$ = $('.feed .entry');
                 done();
             });
         });
