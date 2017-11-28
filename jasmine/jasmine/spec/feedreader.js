@@ -48,13 +48,11 @@ $(function () {
     describe('The menu', function () {
 
         var body$,
-            icon$,
-            slideMenu$;
+            icon$;
 
         beforeEach(() => {
             body$ = $('body');
             icon$ = $('.menu-icon-link');
-            slideMenu$ = $('.slide-menu');
         });
 
         /* TODO:
