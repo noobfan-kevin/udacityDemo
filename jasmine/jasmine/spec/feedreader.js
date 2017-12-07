@@ -6,6 +6,7 @@
 /* 我们把所有的测试都放在了 $() 函数里面。因为有些测试需要 DOM 元素。
  * 我们得保证在 DOM 准备好之前他们不会被运行。
  */
+
 $(function () {
     /* 这是我们第一个测试用例 - 其中包含了一定数量的测试。这个用例的测试
      * 都是关于 Rss 源的定义的，也就是应用中的 allFeeds 变量。
@@ -27,8 +28,9 @@ $(function () {
          */
 
         it('all feeds has link and not empty', function () {
+            var regularExpressionUrl = /^((ht|f)tps?):\/\/([\w\-]+(\.[\w\-]+)*\/)*[\w\-]+(\.[\w\-]+)*\/?(\?([\w\-\.,@?^=%&:\/~\+#]*)+)?/;
             expect(allFeeds.every((feed) => {
-                return feed.hasOwnProperty('url') && feed.url !== '';
+                return feed.hasOwnProperty('url') && feed.url.match(regularExpressionUrl);
             })).toBe(true);
         });
 
@@ -96,9 +98,8 @@ $(function () {
              * 和异步的 done() 函数。
              */
 
-        it('loadFeed function should work fine, every feed has their own entry elements', (done) => {
+        it('loadFeed function should work fine, every feed has their own entry elements', () => {
             expect(entry$.length).not.toBe(0);
-            done();
         })
     });
 
@@ -110,9 +111,12 @@ $(function () {
             after_feed_html;
 
         beforeEach((done) => {
-            before_feed_html = $('.feed').html();
-            loadFeed(1, () => {
-                after_feed_html = $('.feed').html();
+
+            getFeed(1).then((html)=> {
+                before_feed_html = html;
+                return getFeed(2);
+            }).then((html)=> {
+                after_feed_html = html;
                 done();
             });
         });
@@ -121,10 +125,16 @@ $(function () {
         * 记住，loadFeed() 函数是异步的。
         */
 
-        it('load a new feed, really will update html', (done) => {
+        it('load a new feed, really will update html', () => {
             expect(before_feed_html).not.toBe(after_feed_html);
-            done();
         })
     });
 
+    function getFeed(item) {
+        return new Promise((resolve,reject)=> {
+            loadFeed(item,()=> {
+                resolve($('.feed').html());
+            })
+        });
+    }
 }());
