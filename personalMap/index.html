@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>map demo</title>
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="filter-container">
+      <div class="filter-container-left" data-bind="visible: displayFilter()">
+        <div class="filter-header">
+          <h4>Filter Tool</h4>
+        </div>
+        <div class="filter-search">
+          <input class="filter-input" type="text" placeholder="filter" data-bind="textInput: filter" />
+          <button class="submit" data-bind="click: doFilter">Filter</button>
+        </div>
+        <div class="filter-list">
+          <ul data-bind="foreach: locationList">
+            <li>
+              <button data-bind="text: title, click: function(){view.filterItemClicked(title)}"></button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="filter-container-right">
+        <div class="image-container" data-bind="click: toggleFilter">
+          <img src="./left.png" alt="humberger icon" data-bind="visible: displayFilter()">
+          <img src="./right.png" alt="humberger icon" data-bind="visible: !displayFilter()">
+        </div>
+      </div>
+    </div>
+    <div class="placeholder"></div>
+    <div class="map-container">
+      <div id="map" data-bind="click: closeFilter"></div>
+    </div>
+  </div>
+</body>
+
+</html>
+<script src="../lib/jquery.min.js"></script>
+<script src="map.js"></script>
+<script src="index.js"></script>
+<script src="viewModel.js"></script>
+<script type="text/javascript" src="../lib/knockout.min.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACc4gRCgyv4AdsDzb_fcLWX59plX7Ybgc&v=3&callback=initMap"></script>
+
+<script>
+
+  var view = new ViewModel();
+  ko.applyBindings(view);
+
+  function initMap() {
+    TOOL.init();
+    view.setLocation(TOOL.markerInfoList);
+  }
+</script>
