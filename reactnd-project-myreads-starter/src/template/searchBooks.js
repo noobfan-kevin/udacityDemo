@@ -3,7 +3,7 @@ import Book from './book';
 import {
     Link
 } from 'react-router-dom';
-import { _search, _update } from '../BooksAPI';
+import { _search, _update, _getAll } from '../BooksAPI';
 import Loading from './loading';
 
 class Search extends React.Component {
@@ -14,13 +14,22 @@ class Search extends React.Component {
             keyWords: '',
             timer: null,
             bookList: [],
-            isLoading: false,
-            noData: false
+            isLoading: true,
+            noData: false,
+            booksAlreadyInBookrack: []
         }
         this.queryBook = this.queryBook.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.listChangeHandle = this.listChangeHandle.bind(this);
         this.updateBookStatus = this.updateBookStatus.bind(this);
+        this.analyzeList = this.analyzeList.bind(this);
+    }
+
+    componentWillMount() {
+        _getAll().then((list) => {
+            this.setState({ isLoading: false });
+            this.setState({ booksAlreadyInBookrack: list });
+        });
     }
 
     listChangeHandle(event, book) {
@@ -48,11 +57,25 @@ class Search extends React.Component {
                     this.setState({ noData: true });
                     return;
                 }
-                this.setState({ bookList: list });
+                let _list = this.analyzeList(list);
+                this.setState({ bookList: _list });
             }, (error) => {
                 console.error('error when search books', error);
                 this.setState({ isLoading: false });
             });
+    }
+
+    analyzeList(books) {
+        return books.map((book) => {
+            let sameBook = this.state.booksAlreadyInBookrack.find((_book) => {
+                return book.id === _book.id;
+            });
+            if (sameBook !== undefined) {
+               book.shelf = sameBook.shelf;
+            }
+            return book;
+        });
+
     }
 
     handleChange(event) {
