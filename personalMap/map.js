@@ -19,17 +19,19 @@ window.MAP = class map {
             position: info.position,
             map: this.map,
             title: info.title,
-            keyWord: info.keyWords
+            keyWord: info.keyWords,
+            animation: google.maps.Animation.DROP,
         });
 
         this.markerList.push(marker);
         marker.addListener('click', () => {
             this.populateInfoWindow(marker);
+            this.toggleBounce(marker);
         });
     }
 
     resetMarkerList() {
-        this.markerList.forEach((marker)=> {
+        this.markerList.forEach((marker) => {
             marker.setMap(null);
         });
         this.markerList = [];
@@ -47,17 +49,33 @@ window.MAP = class map {
         <p>${content.abstract}</p>
         `;
     }
+
+    /**
+     * information window event handle
+     * @param {*target marker} marker 
+     */
     populateInfoWindow(marker) {
         this.map.setCenter(marker.position);
         if (this.infoWindow.marker == marker) {
             return;
         }
         this.getInfoFromBaiKe(marker.keyWord)
-        .then((success) => {
-            this.showInfoWindow(marker,success);
-        }, (error)=> {
-            this.showInfoWindow(marker,error);
-        })
+            .then((success) => {
+                this.showInfoWindow(marker, success);
+            }, (error) => {
+                this.showInfoWindow(marker, error);
+            })
+    }
+
+    /**
+     * stop other marker's animation, start target marker's animation
+     * @param {*marker} marker 
+     */
+    toggleBounce(marker) {
+        this.markerList.forEach((marker) => {
+            marker.setAnimation(null);
+        });
+        marker.setAnimation(google.maps.Animation.BOUNCE);
     }
 
     showInfoWindow(marker, content) {
@@ -70,29 +88,33 @@ window.MAP = class map {
         });
     }
 
+    /**
+     * get information from BaiKe
+     * @param {*key information} keyWord 
+     */
     getInfoFromBaiKe(keyWord) {
         let url = `${this.BaiKeUrl}?scope=103&format=json&appid=379020&bk_key=${keyWord}&bk_length=600`;
-        return new Promise((resolve, reject)=> {
+        return new Promise((resolve, reject) => {
             $.ajax({
-                type:'get',
-                url:url,
-                dataType:'jsonp',
-                success: (success)=> {
+                type: 'get',
+                url: url,
+                dataType: 'jsonp',
+                success: (success) => {
                     resolve(this.contentHtmlFactory(success));
                 },
-                error: (error)=> {
+                error: (error) => {
                     reject(`<h3>Oops, can not load ${keyWord} information.</h3>`);
                 }
-    
+
             });
         });
     }
 
     showTargetMarker(title) {
-        let marker = this.markerList.filter((marker)=> {
-            return marker.title === title; 
+        let marker = this.markerList.filter((marker) => {
+            return marker.title === title;
         });
-        if(marker.length === 1) {
+        if (marker.length === 1) {
             this.populateInfoWindow(marker[0]);
         }
     }

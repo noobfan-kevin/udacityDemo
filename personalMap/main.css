@@ -1,4 +1,7 @@
-div,body,html,*{
+div, 
+body, 
+html, 
+* {
     margin: 0;
     padding: 0;
 }
@@ -10,7 +13,8 @@ div,body,html,*{
     height: 100%;
     width: 100%;
 }
-.placeholder{
+
+.placeholder {
     width: 3rem;
 }
 
@@ -22,38 +26,44 @@ div,body,html,*{
     height: 100%;
     display: flex;
 }
-.filter-container-left{
+
+.filter-container-left {
     width: 15rem;
 }
-.filter-container-right{
+
+.filter-container-right {
     width: 3rem;
     background: #333;
 }
-.filter-header{
+
+.filter-header {
     height: 40px;
     background: #ccc;
     padding-left: 10px;
     position: relative;
 }
-.filter-header h4{
+
+.filter-header h4 {
     line-height: 40px;
     color: white;
 }
 
-.filter-container-right img{
+.filter-container-right img {
     height: 20px;
     width: 20px;
     position: absolute;
     right: 10px;
     top: 10px;
 }
-.filter-input{
+
+.filter-input {
     height: 28px;
     width: 11rem;
     margin: 4px 0 4px 6px;
     padding-left: 4px;
 }
-.submit{
+
+.submit {
     cursor: pointer;
     height: 30px;
     width: 2.6rem;
@@ -62,28 +72,34 @@ div,body,html,*{
     color: white;
     transition: background 0.6s;
 }
-.submit:hover{
+
+.submit:hover {
     background: #ea644a;
 }
-.filter-list{
+
+.filter-list {
     padding: 10px 6px;
 }
-.filter-list li{
+
+.filter-list li {
     cursor: pointer;
     height: 30px;
     /* border-bottom: 1px solid #38b03f; */
     transition: all 0.6s;
     width: 90%;
 }
-.filter-list li:hover{
+
+.filter-list li:hover {
     background: #8666b8;
     padding-left: 4px;
     width: 100%;
 }
-.filter-list li:hover > button{
+
+.filter-list li:hover>button {
     color: white;
 }
-.filter-list button{
+
+.filter-list button {
     cursor: pointer;
     line-height: 30px;
     /* margin-left: 4px; */
@@ -92,10 +108,12 @@ div,body,html,*{
     background: transparent;
     text-align: left;
 }
-.image-container{
+
+.image-container {
     height: 3rem;
     width: 3rem;
 }
+
 .map-container {
     flex: 1;
     display: flex;

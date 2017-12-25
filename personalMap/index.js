@@ -77,27 +77,45 @@
         },
     ]
 
+    /**
+     * init function
+     */
     function init() {
         initMap();
         markerInit(markerInfoList);
     }
 
+    /**
+     * init all markers
+     * @param {*} markerInfoList 
+     */
     function markerInit(markerInfoList) {
         map.resetMarkerList();
         markerInfoList.forEach((marker) => {
             map.markerFactory(map, marker);
         });
     }
+
     function initMap() {
         map = new MAP(center);
     }
 
+
+    /**
+     * mount click event to marker
+     * @param {*} marker 
+     * @param {*} infoWindow 
+     */
     function mountMarkerClickEvent(marker, infoWindow) {
         marker.addListener('click', function () {
             infoWindow.open(map, marker)
         });
     }
 
+    /**
+     * reset markers be shown on map
+     * @param {*new marker list} list 
+     */
     function resetMarker(list) {
         markerInit(list);
     }

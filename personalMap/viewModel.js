@@ -25,6 +25,9 @@ window.ViewModel = class myViewModel {
         this.displayFilter(false);
     }
 
+    /**
+     * filter
+     */
     doFilter() {
         var keyWords = this.filter().toLowerCase();
         var list = TOOL.markerInfoList.filter((marker)=> {

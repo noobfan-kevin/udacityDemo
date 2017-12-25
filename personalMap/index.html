@@ -46,7 +46,7 @@
 <script src="index.js"></script>
 <script src="viewModel.js"></script>
 <script type="text/javascript" src="../lib/knockout.min.js"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACc4gRCgyv4AdsDzb_fcLWX59plX7Ybgc&v=3&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACc4gRCgyv4AdsDzb_fcLWX59plX7Ybgc&v=3&callback=initMap" onerror="mapLoadError()"></script>
 
 <script>
 
@@ -57,4 +57,9 @@
     TOOL.init();
     view.setLocation(TOOL.markerInfoList);
   }
+
+  function mapLoadError() {
+    alert('google map init fail, please check your net and refreash page.');
+  }
+
 </script>
