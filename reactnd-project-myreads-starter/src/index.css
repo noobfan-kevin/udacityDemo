@@ -1,0 +1,47 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.loading {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: rgba(200, 200, 200, 0.5);
+  z-index: 999;
+}
+
+.loading .block {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+
+}
+
+.point{
+  color: red;
+  animation: color 2s infinite;
+}
+@keyframes color {
+  from {
+    color: red;
+  }
+  to {
+    color: black;
+  }
+}
